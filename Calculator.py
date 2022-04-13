@@ -15,6 +15,7 @@ class STATE:
     INTEGER = 3
     INTERGERUNDER = 4 #Integer part underscore
 
+    DECIMALNOINT = 13
     DECIMALFIRST = 5
     DECIMAL = 6
     DECIMALUNDER = 7 #Decimal part underscore
@@ -26,7 +27,8 @@ class STATE:
 
     FORCEDEND = 12
     
-
+#List of non acceptable states 
+NOTACCEPT = [STATE.ERROR, STATE.INTEGER, STATE.INTERGERUNDER, STATE.DECIMALNOINT, STATE.DECIMALUNDER, STATE.EXPONENTUNDER]
 
 ##################################################
 def stringInterpreter(inputString):
@@ -53,7 +55,7 @@ def stringInterpreter(inputString):
             case STATE.START:
                 if currentCharcter == '.':
                     power = 0.1
-                    currentState = STATE.DECIMALFIRST
+                    currentState = STATE.DECIMALNOINT
                 elif currentCharcter.isdigit():
                     value = ord(currentCharcter) - ord('0')
                     currentState = STATE.INTEGER
@@ -86,6 +88,14 @@ def stringInterpreter(inputString):
                     currentState = STATE.ERROR
 
             #Decimal Portion
+            case STATE.DECIMALNOINT:
+                if currentCharcter.isdigit():
+                    value = value + power * (ord(currentCharcter) - ord('0'))
+                    power = power/10 
+                    currentState = STATE.DECIMAL
+                else:
+                    currentState = STATE.ERROR               
+
             case STATE.DECIMALFIRST:
                 if currentCharcter.isdigit():
                     value = value + power * (ord(currentCharcter) - ord('0'))
@@ -162,12 +172,13 @@ def stringInterpreter(inputString):
         
         #CHECK IF IN ERROR STATEMENT
         if currentState == STATE.ERROR:
+            print("IF ERROR Reached")
             return "ERROR, Invalid Form"
 
         #Handle Finishing/Done State
         elif(i + 1 >= len(inputString)):
-            #If in none except State
-            if(currentState == STATE.INTERGERUNDER or currentState ==STATE.INTEGER or currentState==STATE.DECIMALUNDER or currentState==STATE.EXPONENTUNDER):      
+            #If in there states, do NOT ACCEPT
+            if(currentState in NOTACCEPT):      
                 return "ERROR, Invalid Form"
             else:
                 return sign * value * pow(10,(expSign * exponent ))
