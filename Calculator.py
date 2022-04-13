@@ -172,7 +172,6 @@ def stringInterpreter(inputString):
         
         #CHECK IF IN ERROR STATEMENT
         if currentState == STATE.ERROR:
-            print("IF ERROR Reached")
             return "ERROR, Invalid Form"
 
         #Handle Finishing/Done State
