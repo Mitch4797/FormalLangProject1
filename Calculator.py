@@ -101,6 +101,8 @@ def stringInterpreter(inputString):
                     value = value + power * (ord(currentCharcter) - ord('0'))
                     power = power/10 
                     currentState = STATE.DECIMAL
+                elif currentCharcter == 'e' or currentCharcter == 'E':
+                    currentState = STATE.EXPONENTSIGN
                 else:
                     currentState = STATE.ERROR
 
