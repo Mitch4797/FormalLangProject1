@@ -2,7 +2,6 @@
 #This is my python Script to inturprit numebrs
 ##################################################
 #Imports
-from email.policy import default
 from enum import Enum
 import enum
 
