@@ -166,7 +166,8 @@ def stringInterpreter(inputString):
             return "ERROR, Invalid Form"
 
         #Handle Finishing/Done State
-        if(i + 1 >= len(inputString)):
+        elif(i + 1 >= len(inputString)):
+            #If in none except State
             if(currentState == STATE.INTERGERUNDER or currentState ==STATE.INTEGER or currentState==STATE.DECIMALUNDER or currentState==STATE.EXPONENTUNDER):      
                 return "ERROR, Invalid Form"
             else:
@@ -178,8 +179,8 @@ def stringInterpreter(inputString):
 ##################################################
 
 #To Run Program
-print("Mitchell Humphries Converter")
-print("Type exit to quite program.")
+print("Mitchell Humphries Calculator.")
+print("Type 'exit' or 'q' to close program.")
 
 while True:
     inputString = input("Please enter float literal: ")
