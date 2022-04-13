@@ -179,7 +179,7 @@ def stringInterpreter(inputString):
 ##################################################
 
 #To Run Program
-print("Mitchell Humphries Calculator.")
+print("Mitchell H. Calculator.")
 print("Type 'exit' or 'q' to close program.")
 
 while True:
