@@ -28,7 +28,7 @@ class STATE:
     FORCEDEND = 12
     
 #List of non acceptable states 
-NOTACCEPT = [STATE.ERROR, STATE.INTEGER, STATE.INTERGERUNDER, STATE.DECIMALNOINT, STATE.DECIMALUNDER, STATE.EXPONENTUNDER]
+NOTACCEPT = [STATE.ERROR, STATE.INTEGER, STATE.INTERGERUNDER, STATE.DECIMALNOINT, STATE.DECIMALUNDER, STATE.EXPONENTUNDER, STATE.FORCEDEND]
 
 ##################################################
 def stringInterpreter(inputString):
@@ -73,7 +73,7 @@ def stringInterpreter(inputString):
                     value = 10 * value + ord(currentCharcter) - ord('0')
                 elif currentCharcter == 'e' or currentCharcter == 'E':
                     currentState = STATE.EXPONENTSIGN
-                elif currentCharcter =='f' or currentCharcter == 'F':
+                elif currentCharcter =='f' or currentCharcter == 'F'or currentCharcter == 'd'or currentCharcter == 'D':
                     currentState = STATE.FORCEDEND
                 else:
                     currentState = STATE.ERROR
@@ -114,8 +114,8 @@ def stringInterpreter(inputString):
                     currentState = STATE.DECIMALUNDER
                 elif currentCharcter == 'e' or currentCharcter == 'E':
                     currentState = STATE.EXPONENTSIGN
-                elif currentCharcter =='f' or currentCharcter == 'F':
-                    pass
+                elif currentCharcter =='f' or currentCharcter == 'F'or currentCharcter == 'd'or currentCharcter == 'D':
+                    currentState == STATE.FORCEDEND
                 else:
                     currentState = STATE.ERROR
 
@@ -153,8 +153,8 @@ def stringInterpreter(inputString):
             case STATE.EXPONENT:
                 if currentCharcter.isdigit():
                     exponent = 10 * exponent + (ord(currentCharcter) - ord('0'))
-                elif currentCharcter =='f' or currentCharcter == 'F':
-                    pass
+                elif currentCharcter =='f' or currentCharcter == 'F'or currentCharcter == 'd'or currentCharcter == 'D':
+                    currentState = STATE.FORCEDEND
                 elif currentCharcter == '_':
                     currentState = STATE.EXPONENTUNDER
                 else:
@@ -168,13 +168,17 @@ def stringInterpreter(inputString):
                     pass
                 else:
                     currentState = STATE.ERROR
-            
-            case default:
-                print("Error this should not be reached")
-        
+
         #CHECK IF IN ERROR STATEMENT
         if currentState == STATE.ERROR:
             return "ERROR, Invalid Form"
+        
+        #If at F need to be
+        elif(currentState == STATE.FORCEDEND):
+            if(i+1 >= len(inputString)):
+                return sign * value * pow(10,(expSign * exponent ))
+            else:
+                return "Error, Invalid Form"
 
         #Handle Finishing/Done State
         elif(i + 1 >= len(inputString)):
